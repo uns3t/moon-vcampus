@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../css/pure-release-1.0.0/pure-min.css">
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+            overflow:hidden;
+        }
+       
+        header{
+            width: 100%;
+            height: 6%;
+            background-image: url(../image/bg0.png); 
+            background-repeat: no-repeat; 
+            background-size: cover;
+        }
+
+
+        
+        .button-success,
+        .button-error,
+        .button-warning,
+        .button-secondary {
+            color: white;
+            border-radius: 4px;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-success {
+            background: rgb(28, 184, 65); /* this is a green */
+        }
+
+        .button-error {
+            background: rgb(202, 60, 60); /* this is a maroon */
+        }
+
+        .button-warning {
+            background: rgb(223, 117, 20); /* this is an orange */
+        }
+
+        .button-secondary {
+            background: rgb(66, 184, 221); /* this is a light blue */
+        }
+
+        #content{
+            position: fixed; 
+            box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            top: 7vh;
+            width: 600px;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            border:2px solid #bdc3c7;
+            border-radius:30px;
+            
+        }
+
+        #leftdiv, #rightdiv{
+            width: 250px;
+            float: left;
+            padding: 10px;
+        }
+        .con1{ 
+            
+            position: fixed;
+            box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            top: 10vh;
+            width: 500px;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            border:2px solid #bdc3c7;
+            border-radius:30px;
+        }
+        
+
+    </style>
+  </head>
+  <body>
+    <header>
+        <div id="nav" class="pure-menu pure-menu-horizontal">
+            <!-- <a href="#" class="pure-menu-heading pure-menu-link"><strong>导航栏</strong></a> -->
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item" onclick="tostudent()"><a href="#" class="pure-menu-link">学籍</a></li>
+                <li class="pure-menu-item" onclick="toshop()"><a href="#" class="pure-menu-link">商店</a></li>
+                <li class="pure-menu-item" onclick="tobook()"><a href="#" class="pure-menu-link">图书</a></li>
+                <li class="pure-menu-item" onclick="tocourse()"><a href="#" class="pure-menu-link">课程</a></li>
+                <li class="pure-menu-item" onclick="tousr()"><a href="#" class="pure-menu-link">用户</a></li>
+            </ul>
+        </div> 
+
+    </header>
+    <div class="con1">
+        <h4>虚拟校园商店</h4>
+        <hr/>
+        <table class="pure-table pure-table-horizontal">
+            <thead>
+                <tr>
+                    <th>商品编号</th>
+                    <th>商品名</th>
+                    <th>商品价格</th>
+                    <th>商品销量</th>
+                    <th>商品库存</th>
+                </tr>
+            </thead>
+        
+            <tbody id="tb">
+                
+            </tbody>
+        </table>
+        <form class="pure-form">
+            <fieldset>
+                <input id="id" type="text" placeholder="商品编号">
+                <input id="num" type="text" placeholder="数量">
+        
+                <button type="submit" class="pure-button pure-button-primary" onclick="tomain()">购买</button>
+            </fieldset>
+        </form>
+    </div>
+
+    
+    
+     
+    
+    <script>
+        const ipr= require('electron').ipcRenderer
+
+        function tostudent(){
+            ipr.send("tostudent","t");
+        }
+
+        function tocourse(){
+            ipr.send("tocourse","t");
+        }
+
+        function toshop(){
+            ipr.send("toshop","t");
+        }
+        function tobook(){
+            ipr.send("tobook","t");
+        }
+        function tousr(){
+            ipr.send("tousr","t");
+        }
+
+        function tomain(){
+            var id=document.getElementById("id").value;
+            var num=document.getElementById("num").value;
+            num=parseInt(num);
+            var shop={
+                Goods_id:id,
+                Goods_quantity:num
+            }
+            
+            ipr.send("buy",shop);
+        }
+        ipr.on("shopreturn",function(event,check){
+            if(check==true){
+                alert("购买成功");
+            }else{
+                alert("蜜汁错误")
+            }
+        })
+
+        
+
+        ipr.on("loadshop",function(event,goods){
+            var tbody=document.getElementById("tb");
+            var ht;
+            for(var good of goods){
+                ht=document.createElement("tr");
+                ht.innerHTML='<td>'+good.goods_id+'</td><td>'+good.goods_name+'</td><td>'+good.goods_price+'</td><td>'+good.goods_sales+'</td><td>'+good.goods_quantity+'</td>'
+                tbody.appendChild(ht);
+            }   
+        })
+        
+        ipr.send("getshop","11")
+    </script>
+  </body>
+</html>

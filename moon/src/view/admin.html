@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../css/pure-release-1.0.0/pure-min.css">
+    <style>
+        html{
+            width: 100%;
+            height: 100%;
+        }
+        body{
+            width: 100%;
+            height: 100%;
+            overflow:hidden;
+            /* background-image: url(../image/bg0.png); 
+            background-repeat: no-repeat; 
+            background-size: cover; */
+        }
+        
+
+        
+        .button-success,
+        .button-error,
+        .button-warning,
+        .button-secondary {
+            color: white;
+            border-radius: 4px;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-success {
+            background: rgb(28, 184, 65); /* this is a green */
+        }
+
+        .button-error {
+            background: rgb(202, 60, 60); /* this is a maroon */
+        }
+
+        .button-warning {
+            background: rgb(223, 117, 20); /* this is an orange */
+        }
+
+        .button-secondary {
+            background: rgb(66, 184, 221); /* this is a light blue */
+        }
+
+        
+    </style>
+  </head>
+  <body>
+      <div>
+            <h3>
+                    商店管理
+                </h3>
+            <button class="button-secondary pure-button" id="addshop" onclick="tomain(this)">添加商品</button>
+            <button class="button-secondary pure-button" id="updateshop" onclick="tomain(this)">修改商品</button>    
+            <button class="button-secondary pure-button" id="deleteshop" onclick="tomain(this)">删除商品</button>    
+            <hr/>
+      </div>
+      <div>
+            <h3>
+                    图书管理
+                </h3>
+            <button class="button-secondary pure-button" id="addbook" onclick="tomain(this)">添加图书</button>
+            <button class="button-secondary pure-button" id="updatebook" onclick="tomain(this)">修改图书</button>    
+            <button class="button-secondary pure-button" id="deletebook" onclick="tomain(this)">删除图书</button>    
+            <hr/>
+      </div>
+
+      <div>
+            <h3>
+                    课程管理
+                </h3>
+            <button class="button-secondary pure-button" id="addcourse" onclick="tomain(this)">添加课程</button>
+            <button class="button-secondary pure-button" id="updatecourse" onclick="tomain(this)">修改课程</button>    
+            <button class="button-secondary pure-button" id="deletecourse" onclick="tomain(this)">删除课程</button>    
+            <hr/>
+      </div>
+      <div>
+            <h3>
+                    学籍管理
+                </h3>
+            <button class="button-secondary pure-button" id="addstudent" onclick="tomain(this)">添加学籍</button>
+            <button class="button-secondary pure-button" id="updatestudent" onclick="tomain(this)">修改学籍</button>    
+            <button class="button-secondary pure-button" id="deletestudent" onclick="tomain(this)">删除学籍</button>    
+            <hr/>
+      </div>
+    
+    <script>
+        const ipr= require('electron').ipcRenderer
+        function tomain(el){
+            ipr.send("adminfunc",el.id);
+        }
+        
+    </script>
+  </body>
+</html>

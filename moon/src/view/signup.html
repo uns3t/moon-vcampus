@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../css/pure-release-1.0.0/pure-min.css">
+    <style>
+        html{
+            width: 100%;
+            height: 100%;
+        }
+        body{
+            width: 100%;
+            height: 100%;
+            overflow:hidden;
+            background-image: url(../image/bg0.png); 
+            background-repeat: no-repeat; 
+            background-size: cover;
+        }
+        
+
+        .con1{ 
+            /* height: 300px;
+            width: 400px;
+            margin: 0 auto; 
+            position: relative;
+            top: 50%; 
+            margin-top: -150px; 
+            border: 2px; */
+            
+            position: fixed;
+            box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            top: 10vh;
+            width: 400px;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            border:2px solid #bdc3c7;
+            border-radius:30px;
+        }
+        .button-success,
+        .button-error,
+        .button-warning,
+        .button-secondary {
+            color: white;
+            border-radius: 4px;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-success {
+            background: rgb(28, 184, 65); /* this is a green */
+        }
+
+        .button-error {
+            background: rgb(202, 60, 60); /* this is a maroon */
+        }
+
+        .button-warning {
+            background: rgb(223, 117, 20); /* this is an orange */
+        }
+
+        .button-secondary {
+            background: rgb(66, 184, 221); /* this is a light blue */
+        }
+
+        
+    </style>
+  </head>
+  <body>
+      <div class="con1">
+           
+        <form class="pure-form pure-form-stacked">
+                <fieldset>
+                    <legend><strong>虚拟校园身份注册</strong></legend>
+            
+                    <div class="pure-g">
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <label for="usrname">用户名</label>
+                            <input id="usrname" placeholder="usrname" class="pure-u-23-24" type="text">
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <label for="usrid">学号</label>
+                            <input id="usrid" placeholder="usrid" class="pure-u-23-24" type="text">
+                        </div>
+            
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <label for="pwd">密码</label>
+                            <input id="pwd" placeholder="password" class="pure-u-23-24" type="password">
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <label for="pwd_confirm">确认密码</label>
+                            <input id="pwd_confirm" placeholder="confrim" class="pure-u-23-24" type="password">
+                        </div>
+                        
+                    </div>
+            
+                    <button type="submit" class="button-secondary pure-button" onclick="signup()" >注册</button>
+                    <button type="submit" class="pure-button"  onclick="tologin()">前往登陆</button>
+                </fieldset>
+            </form>
+      </div>
+    
+    <script>
+        const ipr= require('electron').ipcRenderer
+        function signup(){
+            var usrname=document.getElementById("usrname").value;
+            var usrid=document.getElementById("usrid").value;
+            var pwd=document.getElementById("pwd").value;
+            var pwd_c=document.getElementById("pwd_confirm").value;
+            console.log(usrname+"   "+usrid+"   "+pwd+"   "+pwd_c)
+            if(pwd!=pwd_c){
+                alert("前后密码不一致");
+                return;
+            }
+            ipr.send("signup",usrname,usrid,pwd);
+        }
+
+        ipr.on("signupcheck",function(event,check){
+            console.log("ok");
+
+            if(check==true){
+                console.log("ok");
+                alert("注册成功");
+            }else{
+                alert("出现了谜之错误");
+            }
+        })
+
+        function tologin(){
+            ipr.send("tologin","t");
+        }
+
+    </script>
+  </body>
+</html>

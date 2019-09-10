@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../css/pure-release-1.0.0/pure-min.css">
+    <style>
+        html{
+            width: 100%;
+            height: 100%;
+        }
+        body{
+            width: 100%;
+            height: 100%;
+            overflow:hidden;
+            
+        }
+        
+
+        
+        .button-success,
+        .button-error,
+        .button-warning,
+        .button-secondary {
+            color: white;
+            border-radius: 4px;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-success {
+            background: rgb(28, 184, 65); /* this is a green */
+        }
+
+        .button-error {
+            background: rgb(202, 60, 60); /* this is a maroon */
+        }
+
+        .button-warning {
+            background: rgb(223, 117, 20); /* this is an orange */
+        }
+
+        .button-secondary {
+            background: rgb(66, 184, 221); /* this is a light blue */
+        }
+
+        .con1{ 
+            
+            
+            position: fixed;
+            box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            top: 0vh;
+            width: 400px;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            border:2px solid #bdc3c7;
+            border-radius:30px;
+        }
+    </style>
+  </head>
+  <body>
+      <div class="con1">
+        <form class="pure-form pure-form-stacked">
+            <fieldset>
+                <legend><strong>添加书籍</strong></legend>
+        
+                <div class="pure-g">
+                    <div class="pure-u-1 pure-u-md-1-3">
+                        <label for="usrname">书名</label>
+                        <input id="usrname" class="pure-u-23-24" type="text" value="">
+                    </div>
+        
+                    <div class="pure-u-1 pure-u-md-1-3">
+                        <label for="stdnum">书籍编号</label>
+                        <input id="stdnum" class="pure-u-23-24" type="text" value="">
+                    </div>
+        
+                    <div class="pure-u-1 pure-u-md-1-3">
+                        <label for="usrid">作者</label>
+                        <input id="usrid" class="pure-u-23-24" type="text" value="">
+                    </div>
+        
+                    <div class="pure-u-1 pure-u-md-1-3">
+                        <label for="college">出版社</label>
+                        <input id="college" class="pure-u-23-24" type="text" value="">
+                    </div>
+                    <div class="pure-u-1 pure-u-md-1-3">
+                        <label for="sex">库存</label>
+                        <input id="sex" class="pure-u-23-24" type="text" value="">
+                    </div>
+                    <div class="pure-u-1 pure-u-md-1-3">
+                        <label for="sex">已借</label>
+                        <input id="sex" class="pure-u-23-24" type="text" value="">
+                    </div>
+                    <div class="pure-u-1 pure-u-md-1-3">
+                        <label for="sex">简介</label>
+                        <input id="sex" class="pure-u-23-24" type="text" value="">
+                    </div>
+                </div>
+                <br/>
+                <button type="submit" onclick="tomain()" class="button-secondary pure-button">提交</button>
+            </fieldset>
+            </form>
+      </div>
+        
+    
+    <script>
+        const ipr= require('electron').ipcRenderer
+        function tomain(){
+            var inputs=document.getElementsByTagName("input");
+            var book={
+                Book_name:inputs[0].value,
+                Book_id:inputs[1].value,
+                Book_auther:inputs[2].value,
+                Book_press:inputs[3].value,
+                Book_total:inputs[4].value,
+                Book_borrowed:inputs[5].value,
+                Book_introduction:inputs[6].value,
+            }
+            ipr.send("addbook",book);
+        }
+        ipr.on("addbookreturn",function(e,check){
+            if(check){
+                alert("添加成功")
+            }else{
+                alert("蜜汁错误");
+            }
+        })
+    </script>
+  </body>
+</html>
