@@ -16,6 +16,6 @@
 
 #### 部分技术细节
 
-客户端与服务器端通信由node.js与java的socket完成，使用fastbin转换json与javabean。
+客户端与服务器端通信由node.js与java的socket完成，使用fastjson转换json与javabean。
 
 
